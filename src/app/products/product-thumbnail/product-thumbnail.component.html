@@ -1,0 +1,19 @@
+<div class="d-flex">
+  <div class="p-2 w-100">
+    <h5>{{ product.name }}</h5>
+    <img src="{{ product.imageUrl }}"
+    class="img-fluid rounded-3" alt="Afbeelding boek niet gevonden" style="max-width: 200px; max-height: 200px;" [routerLink]="[product.id]" >
+    <p>{{ product.price | currency }}</p>
+    <p>
+      <small>{{ product.description }}</small>
+    </p>
+  </div>
+  <div class="p-2 flex-shrink-1">
+    <a [routerLink]="[product.id]" class="btn btn-secondary">
+      Show detail</a>
+    <button (click)="buyProduct()" class="btn btn-primary float-right">
+      Buy</button>
+  </div>
+</div>
+ 
+<hr>
