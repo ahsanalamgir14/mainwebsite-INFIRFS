@@ -48,13 +48,14 @@ export class CartComponent implements OnInit {
     this.showEmptyCartMessage = this.products_in_cart.length === 0;
   }
  
-  public removeProductFromCart(product_index: number) {
+  public removeProductFromCart(product: any) {
     try {
-      this.cartService.removeProductFromCart(product_index);
+      this.cartService.removeProductFromCart(product.cartItemDTO);
+      const productId = product.cartItemDTO.id;
+      this.products_in_cart2.cartComponents = this.products_in_cart2.cartComponents.filter(item => item.id !== productId);
     } catch (error) {
       console.error('Fout bij het verwijderen van product uit de winkelwagen.', error)
     }
- 
   }
 
   public totalPrice(){
@@ -65,16 +66,22 @@ export class CartComponent implements OnInit {
 
   // }
  
-//   public calculateTotalprice(): number {
-//     return this.products_in_cart.reduce((total, product) => total + product.price, 0)
-//   }
-  // public removeAllProductsFromCart() {
-  //   this.products_in_cart.forEach((product, index) => {
-  //       this.removeProductFromCart(index);
-  //   });
+  public calculateTotalprice(): number {
+    if (!this.products_in_cart2 || !this.products_in_cart2.cartComponents) {
+      return 0;
+    }
+    
+    return this.products_in_cart2.cartComponents.reduce((total, cartItem) => total + (cartItem.price * cartItem.quantity), 0);
+  }
+
+  public removeAllProductsFromCart() {
+      this.products_in_cart2.cartComponents.forEach((product, index) => {
+        this.removeProductFromCart(product);
+    });
  
-//     this.products_in_cart = [];
-//     this.isOrderPlaced = true;
-//     console.log(this.products_in_cart.length);
-// }
+    this.products_in_cart = [];
+    this.products_in_cart2.cartComponents = [];
+    this.isOrderPlaced = true;
+    console.log(this.products_in_cart.length);
+}
 }

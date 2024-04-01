@@ -33,8 +33,8 @@ export class CartService {
     return this.http.post<Cart>(this.baseUrl, cartcomponents);
   }
  
-  public removeProductFromCart(productId: number) {
-    this.http.delete(`${this.baseUrl}/${productId}`).subscribe(() => {
+  public removeProductFromCart(cartItemDTO: any) {
+    this.http.delete(`${this.baseUrl}/delete`, { body: cartItemDTO }).subscribe(() => {
       this.loadProductsFromBackend();
     });
   }
