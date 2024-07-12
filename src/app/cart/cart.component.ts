@@ -67,21 +67,27 @@ export class CartComponent implements OnInit {
   // }
  
   public calculateTotalprice(): number {
-    if (!this.products_in_cart2 || !this.products_in_cart2.cartComponents) {
+    if (!this.products_in_cart2) {
       return 0;
     }
     
-    return this.products_in_cart2.cartComponents.reduce((total, cartItem) => total + (cartItem.price * cartItem.quantity), 0);
+    return this.products_in_cart2.cartComponents.reduce((total, cartItem) => total + (cartItem.price), 0);
   }
 
   public removeAllProductsFromCart() {
+    try {
       this.products_in_cart2.cartComponents.forEach((product, index) => {
-        this.removeProductFromCart(product);
-    });
- 
-    this.products_in_cart = [];
-    this.products_in_cart2.cartComponents = [];
-    this.isOrderPlaced = true;
-    console.log(this.products_in_cart.length);
+        this.cartService.checkoutCart(product);
+      });
+
+      this.products_in_cart = [];
+      this.products_in_cart2.cartComponents = [];
+      this.isOrderPlaced = true;
+      console.log(this.products_in_cart.length);
+
+    } catch (error) {
+      console.error('error.', error)
+    }
+
 }
 }

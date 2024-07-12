@@ -38,6 +38,10 @@ export class CartService {
       this.loadProductsFromBackend();
     });
   }
+  public checkoutCart(cartItemDTO: any) { 
+    this.http.delete(`${this.baseUrl}/checkoutCart`, { body: cartItemDTO }).subscribe(() => {
+    });
+  }
 
   // public totalPrice(price: Order){
   //     this.http.get(price.price).subscribe((pricetotal) => {this.loadProductsFromBackend()})
